@@ -27,13 +27,13 @@ export class ArticlesService {
 
     switch (sortBy) {
       case "popularity":
-        sortOptions.views = -1
+        sortOptions.views = -1 // Sort by views in descending order
         break
       case "likes":
-        sortOptions.likes = -1
+        sortOptions.likes = -1 // Sort by likes in descending order
         break
       default:
-        sortOptions.createdAt = -1
+        sortOptions.createdAt = -1 // Default: Sort by publication date (newest first)
     }
 
     return this.articleModel.find(query).populate("author", "username").sort(sortOptions).exec()
