@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Request, ValidationPipe } from "@nestjs/common"
+import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Request, ValidationPipe } from "@nestjs/common"
 import { AuthGuard } from "@nestjs/passport"
-import type { ArticlesService } from "./articles.service"
+import { ArticlesService } from "./articles.service"
 import { ArticleCategory } from "./article.schema"
 import { IsString, IsEnum, IsOptional, IsArray } from "class-validator"
 
@@ -28,7 +28,7 @@ class CreateArticleDto {
 
 @Controller("articles")
 export class ArticlesController {
-  constructor(private articlesService: ArticlesService) {}
+  constructor(private readonly articlesService: ArticlesService) {}
 
   @Get()
   async findAll(sortBy?: string, category?: ArticleCategory) {

@@ -1,15 +1,14 @@
 import { Injectable, NotFoundException, ForbiddenException } from "@nestjs/common"
-import type { Model } from "mongoose"
-import type { Article, ArticleDocument, ArticleCategory } from "./article.schema"
+import { InjectModel } from "@nestjs/mongoose"
+import { Model } from "mongoose"
+import { Article, ArticleDocument, ArticleCategory } from "./article.schema" // Remove 'type' from Article import
 import { UserRole } from "../users/user.schema"
 
 @Injectable()
 export class ArticlesService {
-  private articleModel: Model<ArticleDocument>
-
-  constructor(articleModel: Model<ArticleDocument>) {
-    this.articleModel = articleModel
-  }
+  constructor(
+    @InjectModel(Article.name) private readonly articleModel: Model<ArticleDocument>, // Ensure this matches the dependency
+  ) {}
 
   async create(articleData: Partial<Article>, userId: string): Promise<Article> {
     const article = new this.articleModel({

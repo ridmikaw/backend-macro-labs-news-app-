@@ -1,12 +1,13 @@
 import { Injectable, UnauthorizedException, ConflictException } from "@nestjs/common"
-import type { JwtService } from "@nestjs/jwt"
-import type { UsersService } from "../users/users.service"
+import { JwtService } from "@nestjs/jwt"
+import { UsersService } from "../users/users.service"
+import { User } from "../users/user.schema"
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
+    private readonly usersService: UsersService, // Ensure UsersService is injected
+    private readonly jwtService: JwtService, // Ensure JwtService is injected
   ) {}
 
   async register(username: string, email: string, password: string) {
@@ -53,5 +54,13 @@ export class AuthService {
         role: user.role,
       },
     }
+  }
+
+  async validateUser(email: string, password: string): Promise<User | null> {
+    const user = await this.usersService.findByEmail(email)
+    if (user && (await this.usersService.validatePassword(password, user.password))) {
+      return user
+    }
+    return null
   }
 }

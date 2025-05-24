@@ -1,15 +1,14 @@
 import { Injectable } from "@nestjs/common"
-import type { Model } from "mongoose"
-import type { User, UserDocument } from "./user.schema"
+import { InjectModel } from "@nestjs/mongoose"
+import { Model } from "mongoose"
+import { User, UserDocument } from "./user.schema"
 import * as bcrypt from "bcryptjs"
 
 @Injectable()
 export class UsersService {
-  private userModel: Model<UserDocument>
-
-  constructor(userModel: Model<UserDocument>) {
-    this.userModel = userModel
-  }
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>, // Ensure this matches the dependency
+  ) {}
 
   async create(userData: Partial<User>): Promise<User> {
     if (!userData.password) {
@@ -22,6 +21,10 @@ export class UsersService {
       password: hashedPassword,
     })
     return user.save()
+  }
+
+  async findAll() {
+    return this.userModel.find().exec()
   }
 
   async findByEmail(email: string): Promise<UserDocument | null> {

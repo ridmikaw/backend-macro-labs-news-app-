@@ -1,5 +1,5 @@
 import { Controller, Post, Body, ValidationPipe } from "@nestjs/common"
-import type { AuthService } from "./auth.service"
+import { AuthService } from "./auth.service"
 import { IsEmail, IsString, MinLength } from "class-validator"
 
 class RegisterDto {
@@ -25,7 +25,7 @@ class LoginDto {
 
 @Controller("auth")
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('register')
   async register(@Body(ValidationPipe) registerDto: RegisterDto) {
