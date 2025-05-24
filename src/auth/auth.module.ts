@@ -5,6 +5,7 @@ import { AuthService } from "./auth.service"
 import { AuthController } from "./auth.controller"
 import { UsersModule } from "../users/users.module"
 import { JwtStrategy } from "./jwt.strategy"
+import { ValidateCaptchaService } from "../captcha/validate-captcha.service" // Import ValidateCaptchaService
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { JwtStrategy } from "./jwt.strategy"
   providers: [
     AuthService, // Ensure AuthService is provided
     JwtStrategy, // Ensure JwtStrategy is provided
+    ValidateCaptchaService, // Provide ValidateCaptchaService
   ],
   controllers: [
     AuthController, // Ensure AuthController is registered

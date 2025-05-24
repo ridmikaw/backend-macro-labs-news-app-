@@ -43,7 +43,7 @@ export class ArticlesController {
   @Post()
   @UseGuards(AuthGuard("jwt"))
   async create(@Body(ValidationPipe) createArticleDto: CreateArticleDto, @Request() req) {
-    return this.articlesService.create(createArticleDto, req.user.userId)
+    return this.articlesService.create(createArticleDto, req.user.userId, req.user.role)
   }
 
   @Put(":id")

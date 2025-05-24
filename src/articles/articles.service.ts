@@ -10,7 +10,10 @@ export class ArticlesService {
     @InjectModel(Article.name) private readonly articleModel: Model<ArticleDocument>, // Ensure this matches the dependency
   ) {}
 
-  async create(articleData: Partial<Article>, userId: string): Promise<Article> {
+  async create(articleData: Partial<Article>, userId: string, userRole: UserRole): Promise<Article> {
+    if (userRole !== UserRole.ADMIN && userRole !== UserRole.EDITOR) {
+      throw new ForbiddenException("You do not have permission to create articles")
+    }
     const article = new this.articleModel({
       ...articleData,
       author: userId,
@@ -18,7 +21,7 @@ export class ArticlesService {
     return article.save()
   }
 
-  async findAll(sortBy = "createdAt", category?: ArticleCategory): Promise<Article[]> {
+  async findAll(sortBy = "createdAt", category?: string): Promise<Article[]> {
     const query = category ? { category, isPublished: true } : { isPublished: true }
     const sortOptions: any = {}
 
