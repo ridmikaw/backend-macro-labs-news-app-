@@ -1,7 +1,8 @@
 import { Controller, Post, Body, ValidationPipe } from "@nestjs/common"
 import { AuthService } from "./auth.service"
 import { ValidateCaptchaService } from '../captcha/validate-captcha.service';
-import { IsEmail, IsString, MinLength } from "class-validator"
+import { IsEmail, IsString, MinLength, IsIn } from "class-validator"
+import { UserRole } from "../users/user.schema"; // Import UserRole enum
 
 class RegisterDto {
   @IsString()
@@ -14,6 +15,10 @@ class RegisterDto {
   @IsString()
   @MinLength(6)
   password: string
+
+  @IsString()
+  @IsIn(Object.values(UserRole)) // Restrict role to valid UserRole values
+  role: UserRole;
 }
 
 class LoginDto {
@@ -38,6 +43,7 @@ export class AuthController {
       registerDto.username,
       registerDto.email,
       registerDto.password,
+      registerDto.role, // Pass role to the service
     );
   }
 

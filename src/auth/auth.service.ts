@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException, ConflictException } from "@nestjs/common"
 import { JwtService } from "@nestjs/jwt"
 import { UsersService } from "../users/users.service"
-import { User } from "../users/user.schema"
+import { User, UserRole } from "../users/user.schema"
 
 @Injectable()
 export class AuthService {
@@ -10,7 +10,7 @@ export class AuthService {
     private readonly jwtService: JwtService, // Ensure JwtService is injected
   ) {}
 
-  async register(username: string, email: string, password: string) {
+  async register(username: string, email: string, password: string, role: UserRole) {
     const existingUser = await this.usersService.findByEmail(email)
     if (existingUser) {
       throw new ConflictException("User with this email already exists")
@@ -21,7 +21,7 @@ export class AuthService {
       throw new ConflictException("Username already taken")
     }
 
-    const user = await this.usersService.create({ username, email, password }) as any // Ensure `_id` is accessible
+    const user = await this.usersService.create({ username, email, password, role }) as any // Ensure `_id` is accessible
     const payload = { sub: user._id, username: user.username, role: user.role }
 
     return {
