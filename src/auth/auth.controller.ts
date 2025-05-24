@@ -1,0 +1,43 @@
+import { Controller, Post, Body, ValidationPipe } from "@nestjs/common"
+import type { AuthService } from "./auth.service"
+import { IsEmail, IsString, MinLength } from "class-validator"
+
+class RegisterDto {
+  @IsString()
+  @MinLength(3)
+  username: string
+
+  @IsEmail()
+  email: string
+
+  @IsString()
+  @MinLength(6)
+  password: string
+}
+
+class LoginDto {
+  @IsString()
+  identifier: string // email or username
+
+  @IsString()
+  password: string
+}
+
+@Controller("auth")
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @Post('register')
+  async register(@Body(ValidationPipe) registerDto: RegisterDto) {
+    return this.authService.register(
+      registerDto.username,
+      registerDto.email,
+      registerDto.password,
+    );
+  }
+
+  @Post('login')
+  async login(@Body(ValidationPipe) loginDto: LoginDto) {
+    return this.authService.login(loginDto.identifier, loginDto.password);
+  }
+}
