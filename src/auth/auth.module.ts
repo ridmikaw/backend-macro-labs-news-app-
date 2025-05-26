@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common"
-import { JwtModule } from "@nestjs/jwt"
 import { PassportModule } from "@nestjs/passport"
+import { JwtModule } from "@nestjs/jwt"
 import { AuthService } from "./auth.service"
 import { AuthController } from "./auth.controller"
 import { UsersModule } from "../users/users.module"
@@ -10,10 +10,10 @@ import { ValidateCaptchaService } from "../captcha/validate-captcha.service" // 
 @Module({
   imports: [
     UsersModule, // Import UsersModule to provide UsersService
-    PassportModule,
+    PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.register({
-      secret: process.env.JWT_SECRET || "your-secret-key",
-      signOptions: { expiresIn: "24h" },
+      secret: process.env.JWT_SECRET || "your-secret-key", // Replace with your actual secret key
+      signOptions: { expiresIn: "1h" },
     }),
   ],
   providers: [
@@ -26,6 +26,8 @@ import { ValidateCaptchaService } from "../captcha/validate-captcha.service" // 
   ],
   exports: [
     AuthService, // Export AuthService for use in other modules
+    PassportModule, 
+    JwtModule,
   ],
 })
 export class AuthModule {}
