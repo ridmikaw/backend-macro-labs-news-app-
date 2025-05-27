@@ -52,7 +52,7 @@ This is the backend service for the Macro Labs News App, built using NestJS. It 
 3. Create a `.env` file in the root directory and configure the following environment variables:
 
    ```env
-   MONGO_URI=mongodb://localhost:27017/news-app
+   MONGO_URI=mongodb+srv://ridmi:ridmi123@derana.svw3rzi.mongodb.net/?retryWrites=true&w=majority&appName=Derana
    JWT_SECRET=your_jwt_secret
    CAPTCHA_SECRET=your_captcha_secret
    ```
