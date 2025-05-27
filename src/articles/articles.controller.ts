@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Request, ValidationPipe } from "@nestjs/common"
+import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Request, ValidationPipe, Query } from "@nestjs/common"
 import { AuthGuard } from "@nestjs/passport"
 import { ArticlesService } from "./articles.service"
 import { ArticleCategory } from "./article.schema"
@@ -31,7 +31,11 @@ export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Get()
-  async findAll(sortBy?: string, category?: ArticleCategory) {
+  async findAll(
+    @Query("sortBy") sortBy?: string,
+    @Query("category") category?: string,
+  ) {
+    console.log("findAll endpoint called with:", { sortBy, category })
     return this.articlesService.findAll(sortBy, category)
   }
 
