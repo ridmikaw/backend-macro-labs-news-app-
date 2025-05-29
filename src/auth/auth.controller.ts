@@ -16,9 +16,6 @@ class RegisterDto {
   @MinLength(6)
   password: string
 
-  @IsString()
-  @IsIn(Object.values(UserRole)) // Restrict role to valid UserRole values
-  role: UserRole;
 }
 
 class LoginDto {
@@ -43,7 +40,7 @@ export class AuthController {
       registerDto.username,
       registerDto.email,
       registerDto.password,
-      registerDto.role, 
+      UserRole.USER, // Default role for new users is USER. Admin can change this later in admin panel
     );
   }
 
