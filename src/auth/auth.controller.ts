@@ -33,17 +33,17 @@ class LoginDto {
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly validateCaptchaService: ValidateCaptchaService, // Captcha validation service
+    private readonly validateCaptchaService: ValidateCaptchaService, 
   ) {}
 
   @Post('register')
   async register(@Body(ValidationPipe) registerDto: RegisterDto, @Body('captchaToken') captchaToken: string) {
-    await this.validateCaptchaService.validate(captchaToken); // Validate Captcha
+    await this.validateCaptchaService.validate(captchaToken); 
     return this.authService.register(
       registerDto.username,
       registerDto.email,
       registerDto.password,
-      registerDto.role, // Pass role to the service
+      registerDto.role, 
     );
   }
 

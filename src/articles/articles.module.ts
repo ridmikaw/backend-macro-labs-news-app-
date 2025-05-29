@@ -6,16 +6,16 @@ import { Article, ArticleSchema } from "./article.schema"
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Article.name, schema: ArticleSchema }]), // Ensure Article model is imported
+    MongooseModule.forFeature([{ name: Article.name, schema: ArticleSchema }]), 
   ],
   providers: [
-    ArticlesService, // Ensure ArticlesService is provided
+    ArticlesService, 
   ],
   controllers: [
-    ArticlesController, // Ensure ArticlesController is registered
+    ArticlesController, 
   ],
   exports: [
-    ArticlesService, // Export ArticlesService if used in other modules
+    ArticlesService, 
   ],
 })
 export class ArticlesModule {}

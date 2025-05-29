@@ -6,16 +6,16 @@ import { UsersController } from "./users.controller"
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: "User", schema: UserSchema }]), // Ensure the User model is registered
+    MongooseModule.forFeature([{ name: "User", schema: UserSchema }]), 
   ],
   providers: [
-    UsersService, // Ensure UsersService is provided
+    UsersService, 
   ],
   controllers: [
-    UsersController, // Ensure UsersController is included
+    UsersController,
   ],
   exports: [
-    UsersService, // Export UsersService if used in other modules
+    UsersService, 
   ],
 })
 export class UsersModule {}

@@ -6,8 +6,8 @@ import { User, UserRole } from "../users/user.schema"
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersService: UsersService, // Ensure UsersService is injected
-    private readonly jwtService: JwtService, // Ensure JwtService is injected
+    private readonly usersService: UsersService, 
+    private readonly jwtService: JwtService, 
   ) {}
 
   async register(username: string, email: string, password: string, role: UserRole) {
@@ -21,7 +21,7 @@ export class AuthService {
       throw new ConflictException("Username already taken")
     }
 
-    const user = await this.usersService.create({ username, email, password, role }) as any // Ensure `_id` is accessible
+    const user = await this.usersService.create({ username, email, password, role }) as any 
     const payload = { sub: user._id, username: user.username, role: user.role }
 
     return {
@@ -43,7 +43,7 @@ export class AuthService {
       throw new UnauthorizedException("Invalid credentials")
     }
 
-    const payload = { sub: (user as any)._id, username: user.username, role: user.role } // Ensure `_id` is accessible
+    const payload = { sub: (user as any)._id, username: user.username, role: user.role } 
 
     return {
       access_token: this.jwtService.sign(payload),

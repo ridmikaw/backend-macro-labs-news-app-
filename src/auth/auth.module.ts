@@ -5,27 +5,27 @@ import { AuthService } from "./auth.service"
 import { AuthController } from "./auth.controller"
 import { UsersModule } from "../users/users.module"
 import { JwtStrategy } from "./jwt.strategy"
-import { ValidateCaptchaService } from "../captcha/validate-captcha.service" // Import ValidateCaptchaService
+import { ValidateCaptchaService } from "../captcha/validate-captcha.service" 
 
 @Module({
   imports: [
-    UsersModule, // Import UsersModule to provide UsersService
+    UsersModule, 
     PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.register({
-      secret: process.env.JWT_SECRET || "your-secret-key", // Replace with your actual secret key
+      secret: process.env.JWT_SECRET || "your-secret-key", 
       signOptions: { expiresIn: "1h" },
     }),
   ],
   providers: [
-    AuthService, // Ensure AuthService is provided
-    JwtStrategy, // Ensure JwtStrategy is provided
-    ValidateCaptchaService, // Provide ValidateCaptchaService
+    AuthService, 
+    JwtStrategy, 
+    ValidateCaptchaService, 
   ],
   controllers: [
-    AuthController, // Ensure AuthController is registered
+    AuthController, 
   ],
   exports: [
-    AuthService, // Export AuthService for use in other modules
+    AuthService, 
     PassportModule, 
     JwtModule,
   ],

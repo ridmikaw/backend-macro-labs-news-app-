@@ -1,13 +1,13 @@
 import { Injectable, NotFoundException, ForbiddenException } from "@nestjs/common"
 import { InjectModel } from "@nestjs/mongoose"
 import { Model } from "mongoose"
-import { Article, ArticleDocument, ArticleCategory } from "./article.schema" // Remove 'type' from Article import
+import { Article, ArticleDocument, ArticleCategory } from "./article.schema" 
 import { UserRole } from "../users/user.schema"
 
 @Injectable()
 export class ArticlesService {
   constructor(
-    @InjectModel(Article.name) private readonly articleModel: Model<ArticleDocument>, // Ensure this matches the dependency
+    @InjectModel(Article.name) private readonly articleModel: Model<ArticleDocument>, 
   ) {}
 
   async create(articleData: Partial<Article>, userId: string, userRole: UserRole): Promise<Article> {
@@ -27,13 +27,13 @@ export class ArticlesService {
 
     switch (sortBy) {
       case "popularity":
-        sortOptions.views = -1 // Sort by views in descending order
+        sortOptions.views = -1 
         break
       case "likes":
-        sortOptions.likes = -1 // Sort by likes in descending order
+        sortOptions.likes = -1 
         break
       default:
-        sortOptions.createdAt = -1 // Default: Sort by publication date (newest first)
+        sortOptions.createdAt = -1 
     }
 
     return this.articleModel.find(query).populate("author", "username").sort(sortOptions).exec()

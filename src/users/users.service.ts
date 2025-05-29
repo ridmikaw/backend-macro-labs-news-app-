@@ -1,5 +1,5 @@
 import { Injectable, ForbiddenException, NotFoundException, BadRequestException } from "@nestjs/common"
-import { InjectModel } from "@nestjs/mongoose" // Import InjectModel
+import { InjectModel } from "@nestjs/mongoose" 
 import type { Model } from "mongoose"
 import type { User, UserDocument } from "./user.schema"
 import { UserRole } from "./user.schema"
@@ -8,7 +8,7 @@ import * as bcrypt from "bcryptjs"
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel("User") private readonly userModel: Model<UserDocument>, // Use InjectModel to inject the User model
+    @InjectModel("User") private readonly userModel: Model<UserDocument>, 
   ) {}
 
   async create(userData: Partial<User>): Promise<User> {
@@ -47,7 +47,7 @@ export class UsersService {
       }
 
       const users = await this.userModel
-        .find({}, { password: 0 }) // Exclude password field
+        .find({}, { password: 0 }) 
         .sort({ createdAt: -1 })
         .exec()
 
